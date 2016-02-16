@@ -1,10 +1,14 @@
 package views;
 
+import java.util.List;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -25,6 +29,10 @@ import book.Book;
 import book.Library;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ArmListener;
+import org.eclipse.swt.events.ArmEvent;
 
 public class View extends ViewPart {
 	public View() {
@@ -142,7 +150,20 @@ public class View extends ViewPart {
 		table.setMenu(menu);
 
 		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
-		mntmNewItem.setText("New Item");
+		mntmNewItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)tableViewer.getSelection();
+				List list = selection.toList();
+				if(list.size()>0){
+					Book book = (Book)list.get(0);
+					library.remove(book);
+					tableViewer.setInput(library);
+				}
+			};
+		});
+		mntmNewItem.setSelection(true);
+		mntmNewItem.setText("Remove");
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.setContentProvider(new ContentProvider());
 		initLibrary();
