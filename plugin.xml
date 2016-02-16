@@ -26,17 +26,30 @@
             class="views.View"
             id="LibraryProject.view">
       </view>
+      <view
+            class="views.View2"
+            id="LibraryProject.view2"
+            name="Second"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="*">
+            targetID="LibraryProject.perspective">
          <view
                standalone="true"
                minimized="false"
                relative="org.eclipse.ui.editorss"
                relationship="left"
                id="LibraryProject.view">
+         </view>
+         <view
+               id="LibraryProject.view2"
+               minimized="false"
+               relationship="right"
+               relative="LibraryProject.view"
+               standalone="true">
          </view>
       </perspectiveExtension>
    </extension>
