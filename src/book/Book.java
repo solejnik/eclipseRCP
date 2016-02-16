@@ -8,6 +8,17 @@ public class Book {
 	private String title;
 	private List<Integer> authors = new ArrayList<Integer>();
 
+	public Book(String title) {
+		super();
+		this.title = title;
+	}
+
+	public Book(Long id, String title) {
+		super();
+		this.id = id;
+		this.title = title;
+	}
+
 	public Book(Long id, String title, List<Integer> authors) {
 		super();
 		this.id = id;
@@ -15,22 +26,11 @@ public class Book {
 		this.authors = authors;
 	}
 	
-	public Book(Long id, String title) {
-		super();
-		this.id = id;
-		this.title = title;
-	}
-
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Book(String title) {
-		super();
 		this.title = title;
 	}
 

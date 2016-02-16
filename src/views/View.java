@@ -109,9 +109,9 @@ public class View extends ViewPart {
 
 	private void initLibrary() {
 		Library library = new Library();
-		Book book3 = new Book(3l, "Trzecia Ksiazka");
-		Book book2 = new Book(2l, "Druga Ksiazka");
-		Book book1 = new Book(1l, "Pierwsza Ksiazka");
+		Book book3 = new Book(3L,"Trzecia Ksiazka");
+		Book book2 = new Book(2L,"Druga Ksiazka");
+		Book book1 = new Book(1l,"Pierwsza Ksiazka");
 		library.add(book1);
 		library.add(book2);
 		library.add(book3);
@@ -126,12 +126,7 @@ public class View extends ViewPart {
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				MyTitleAreaDialog dialog = new MyTitleAreaDialog(null);
-				dialog.create();
-				if (dialog.open() == Window.OK) {
-				  library.add(new Book(Long.parseLong(dialog.getFirstName()), dialog.getLastName()));
-				  tableViewer.setInput(library);
-				} 
+				
 			}
 		});
 		table = tableViewer.getTable();
@@ -185,6 +180,20 @@ public class View extends ViewPart {
 		});
 		mntmNewItem.setSelection(true);
 		mntmNewItem.setText("Remove");
+		
+		MenuItem mntmAdd = new MenuItem(menu, SWT.NONE);
+		mntmAdd.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MyTitleAreaDialog dialog = new MyTitleAreaDialog(null);
+				dialog.create();
+				if (dialog.open() == Window.OK) {
+				  library.add(new Book(Long.parseLong(dialog.getFirstName()), dialog.getLastName()));
+				  tableViewer.setInput(library);
+				} 
+			}
+		});
+		mntmAdd.setText("Add");
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.setContentProvider(new ContentProvider());
 		initLibrary();

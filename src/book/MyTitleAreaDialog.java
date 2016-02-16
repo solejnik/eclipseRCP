@@ -95,4 +95,6 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
   public String getLastName() {
     return lastName;
   }
+  
+  
 } 
