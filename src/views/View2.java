@@ -51,7 +51,6 @@ public class View2 extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				System.out.println(lblNewLabel_1.getText());
-				
 			}
 		});
 	}
