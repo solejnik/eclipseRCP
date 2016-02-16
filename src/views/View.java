@@ -2,6 +2,7 @@ package views;
 
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -12,11 +13,13 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
@@ -26,13 +29,20 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import book.Book;
+import book.InputDialog;
 import book.Library;
+import book.MyTitleAreaDialog;
+
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ArmListener;
 import org.eclipse.swt.events.ArmEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 
 public class View extends ViewPart {
 	public View() {
@@ -114,10 +124,21 @@ public class View extends ViewPart {
 		TableColumnLayout layout = new TableColumnLayout();
 		parent.setLayout(layout);
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+			public void doubleClick(DoubleClickEvent event) {
+				MyTitleAreaDialog dialog = new MyTitleAreaDialog(null);
+				dialog.create();
+				if (dialog.open() == Window.OK) {
+				  library.add(new Book(Long.parseLong(dialog.getFirstName()), dialog.getLastName()));
+				  tableViewer.setInput(library);
+				} 
+			}
+		});
 		table = tableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true, 5, 5));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.setToolTipText("xxx");
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnFirst = tableViewerColumn.getColumn();
