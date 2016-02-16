@@ -1,6 +1,8 @@
 package book;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Library {
@@ -20,5 +22,29 @@ public class Library {
 	
 	public void remove(Book book){
 		books.remove(book);
+	}
+	
+	public void sortById(){
+		Collections.sort(books,new Comparator<Book>() {
+			@Override
+			public int compare(Book o1, Book o2) {
+				if(o1.getId()>o2.getId()){
+					return 1;
+				}else if(o1.getId()<o2.getId()){
+					return -1;
+				}else{
+					return 0;
+				}
+			}
+		});
+	}
+	
+	public void sortByTitle(){
+		Collections.sort(books,new Comparator<Book>() {
+			@Override
+			public int compare(Book o1, Book o2) {
+				return o1.getTitle().compareToIgnoreCase(o2.getTitle());
+			}
+		});
 	}
 }
