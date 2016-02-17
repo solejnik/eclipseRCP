@@ -46,6 +46,7 @@ public class View extends ViewPart {
 	private Table table;
 	private TableViewer tableViewer;
 	private Library library;
+	private Library permanentLobrary;
 
 	class ViewLabelProvider extends LabelProvider {
 		public String getColumnText(Object obj, int index) {
@@ -144,6 +145,7 @@ public class View extends ViewPart {
 		library.add(book19);
 		library.add(book20);
 		this.setLibrary(library);
+		permanentLobrary = new Library(library.getBooks());
 	}
 
 	public void createPartControl(Composite parent) {
@@ -248,7 +250,8 @@ public class View extends ViewPart {
 				SearchBookDialog dialog = new SearchBookDialog(null);
 				dialog.create();
 				if(dialog.open() == Window.OK){
-					tableViewer.setInput(new Library(library.searchBook(dialog.getCriteria())));
+					library.setBooks(permanentLobrary.searchBook(dialog.getCriteria()));
+					tableViewer.setInput(library);
 				}
 			}
 		});
