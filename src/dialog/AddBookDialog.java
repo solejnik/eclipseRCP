@@ -1,4 +1,4 @@
-package book;
+package dialog;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -47,27 +47,27 @@ public class AddBookDialog extends TitleAreaDialog {
   }
 
   private void createBookTitle(Composite container) {
-    Label lbtFirstName = new Label(container, SWT.NONE);
-    lbtFirstName.setText("Book title");
+    Label lbtBookTitle = new Label(container, SWT.NONE);
+    lbtBookTitle.setText("Book title");
 
-    GridData dataFirstName = new GridData();
-    dataFirstName.grabExcessHorizontalSpace = true;
-    dataFirstName.horizontalAlignment = GridData.FILL;
+    GridData dataBookTitle = new GridData();
+    dataBookTitle.grabExcessHorizontalSpace = true;
+    dataBookTitle.horizontalAlignment = GridData.FILL;
 
     bookTitleText = new Text(container, SWT.BORDER);
-    bookTitleText.setLayoutData(dataFirstName);
+    bookTitleText.setLayoutData(dataBookTitle);
   }
   
   private void createAuthorFirstName(Composite container) {
-    Label lbtLastName = new Label(container, SWT.NONE);
-    lbtLastName.setText("Author first name");
+    Label lbtFirstName = new Label(container, SWT.NONE);
+    lbtFirstName.setText("Author first name");
     
-    GridData dataLastName = new GridData();
-    dataLastName.grabExcessHorizontalSpace = true;
-    dataLastName.horizontalAlignment = GridData.FILL;
+    GridData dataFirstName = new GridData();
+    dataFirstName.grabExcessHorizontalSpace = true;
+    dataFirstName.horizontalAlignment = GridData.FILL;
     
     authorFirstNameText = new Text(container, SWT.BORDER);
-    authorFirstNameText.setLayoutData(dataLastName);
+    authorFirstNameText.setLayoutData(dataFirstName);
   }
   
   private void createAuthorLastName(Composite container) {
@@ -78,8 +78,8 @@ public class AddBookDialog extends TitleAreaDialog {
 	  dataLastName.grabExcessHorizontalSpace = true;
 	  dataLastName.horizontalAlignment = GridData.FILL;
 	  
-	  authorFirstNameText = new Text(container, SWT.BORDER);
-	  authorFirstNameText.setLayoutData(dataLastName);
+	  authorLastNameText = new Text(container, SWT.BORDER);
+	  authorLastNameText.setLayoutData(dataLastName);
   }
 
 
@@ -89,8 +89,6 @@ public class AddBookDialog extends TitleAreaDialog {
     return true;
   }
 
-  // save content of the Text fields because they get disposed
-  // as soon as the Dialog closes
   private void saveInput() {
     bookTitle = bookTitleText.getText();
     authorFirstName = authorFirstNameText.getText();

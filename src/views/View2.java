@@ -1,58 +1,58 @@
 package views;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.ui.part.ViewPart;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.part.ViewPart;
+
+import book.Book;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class View2 extends ViewPart {
 	public View2() {
 	}
 	public static final String ID = "BookProject.view";
 	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(2, false));
+		parent.setLayout(new GridLayout(1, false));
+		
+		Label lblAutor = new Label(parent, SWT.NONE);
+		lblAutor.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
+		lblAutor.setText("Autor");
 		
 		Label lblNewLabel = new Label(parent, SWT.NONE);
-		lblNewLabel.setText("Sort by:");
+		lblNewLabel.setFont(SWTResourceManager.getFont("Segoe UI", 10, SWT.BOLD));
+		lblNewLabel.setText("");
 		
 		Label lblNewLabel_1 = new Label(parent, SWT.NONE);
 		lblNewLabel_1.setText("New Label");
-		lblNewLabel_1.setVisible(false);
 		
-		Button btnRadioButton = new Button(parent, SWT.RADIO);
-		btnRadioButton.setText("Id");
-		new Label(parent, SWT.NONE);
-		btnRadioButton.addListener(SWT.Selection, new Listener() {
-			
+		Label lblNewLabel_2 = new Label(parent, SWT.NONE);
+		lblNewLabel_2.setFont(SWTResourceManager.getFont("Segoe UI", 10, SWT.BOLD));
+		lblNewLabel_2.setText("");
+		
+		Label lblNewLabel_3 = new Label(parent, SWT.NONE);
+		lblNewLabel_3.setText("New Label");
+		
+		getSite().getPage().addSelectionListener(new ISelectionListener() {
 			@Override
-			public void handleEvent(Event event) {
-				lblNewLabel_1.setText("id");
+			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+				if (selection != null & selection instanceof IStructuredSelection) {
+					IStructuredSelection strucSelection = (IStructuredSelection) selection;
+					Object o = strucSelection.getFirstElement();
+					if (o instanceof Book) {
+						Book element = (Book) o;
+						lblNewLabel.setText(element.getAuthor().getFirstName());
+						lblNewLabel_2.setText(element.getAuthor().getLastName());
+					}
+				}
 			}
 		});
-		
-		Button btnRadioButton_1 = new Button(parent, SWT.RADIO);
-		btnRadioButton_1.setText("Title");
-		new Label(parent, SWT.NONE);
-		btnRadioButton_1.addListener(SWT.Selection, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				lblNewLabel_1.setText("title");
-			}
-		});		
-		Button btnNewButton = new Button(parent, SWT.NONE);
-		btnNewButton.setText("New Button");
-		btnNewButton.addListener(SWT.Selection, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				System.out.println(lblNewLabel_1.getText());
-			}
-		});
+
 	}
 
 

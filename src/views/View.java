@@ -5,45 +5,37 @@ import java.util.List;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import book.Book;
-import book.InputDialog;
-import book.Library;
-import book.AddBookDialog;
 import book.Author;
-
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ArmListener;
-import org.eclipse.swt.events.ArmEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.DoubleClickEvent;
+import book.Book;
+import book.Library;
+import dialog.AddBookDialog;
+import dialog.EditBookDialog;
 
 public class View extends ViewPart {
 	public View() {
@@ -163,6 +155,39 @@ public class View extends ViewPart {
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
+		
+				MenuItem mntmAdd = new MenuItem(menu, SWT.NONE);
+				mntmAdd.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						AddBookDialog dialog = new AddBookDialog(null);
+						dialog.create();
+						if (dialog.open() == Window.OK) {
+							library.add(new Book(dialog.getLastName(),new Author(dialog.getFirstName(), dialog.getLastName())));
+							tableViewer.setInput(library);
+						}
+					}
+				});
+				mntmAdd.setText("Add");
+		
+		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		mntmEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+				List list = selection.toList();
+				Book book = (Book)list.get(0);
+				EditBookDialog dialog = new EditBookDialog(null, book);
+				dialog.create();
+				if (dialog.open() == Window.OK) {
+					book.setTitle(dialog.getTitleName());
+					book.getAuthor().setFirstName(dialog.getFirstName());
+					book.getAuthor().setLastName(dialog.getLastName());
+					tableViewer.setInput(library);
+				}
+			}
+		});
+		mntmEdit.setText("Edit");
 
 		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
 		mntmNewItem.addSelectionListener(new SelectionAdapter() {
@@ -180,23 +205,10 @@ public class View extends ViewPart {
 		});
 		mntmNewItem.setSelection(true);
 		mntmNewItem.setText("Remove");
-
-		MenuItem mntmAdd = new MenuItem(menu, SWT.NONE);
-		mntmAdd.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				AddBookDialog dialog = new AddBookDialog(null);
-				dialog.create();
-				if (dialog.open() == Window.OK) {
-					library.add(new Book(dialog.getLastName()));
-					tableViewer.setInput(library);
-				}
-			}
-		});
-		mntmAdd.setText("Add");
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.setContentProvider(new ContentProvider());
 		initLibrary();
+		getSite().setSelectionProvider(tableViewer);
 	}
 
 	public void setLibrary(Library library) {
