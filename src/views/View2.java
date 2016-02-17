@@ -15,6 +15,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 public class View2 extends ViewPart {
 	public View2() {
@@ -81,6 +83,27 @@ public class View2 extends ViewPart {
 			}
 		});
 		btnUpdate.setText("Update");
+		
+		Menu menu = new Menu(parent);
+		parent.setMenu(menu);
+		
+		MenuItem mntmHideAuthor = new MenuItem(menu, SWT.NONE);
+		mntmHideAuthor.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				lblAutor.setVisible(false);lblNewLabel.setVisible(false);lblNewLabel_1.setVisible(false);lblNewLabel_2.setVisible(false);lblNewLabel_3.setVisible(false);;
+			}
+		});
+		mntmHideAuthor.setText("Hide author");
+		
+		MenuItem mntmShowAuthor = new MenuItem(menu, SWT.NONE);
+		mntmShowAuthor.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				lblAutor.setVisible(true);lblNewLabel.setVisible(true);lblNewLabel_1.setVisible(true);lblNewLabel_2.setVisible(true);lblNewLabel_3.setVisible(true);;
+			}
+		});
+		mntmShowAuthor.setText("Show author");
 		
 		getSite().getPage().addSelectionListener(new ISelectionListener() {
 			@Override

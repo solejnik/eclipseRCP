@@ -22,14 +22,14 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="View"
+            name="Books"
             class="views.View"
             id="LibraryProject.view">
       </view>
       <view
             class="views.View2"
             id="LibraryProject.view2"
-            name="Second"
+            name="Author"
             restorable="true">
       </view>
    </extension>

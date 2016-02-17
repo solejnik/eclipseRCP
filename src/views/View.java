@@ -36,6 +36,7 @@ import book.Book;
 import book.Library;
 import dialog.AddBookDialog;
 import dialog.EditBookDialog;
+import dialog.SearchBookDialog;
 
 public class View extends ViewPart {
 	public View() {
@@ -102,12 +103,46 @@ public class View extends ViewPart {
 
 	private void initLibrary() {
 		Library library = new Library();
-		Book book3 = new Book("Trzecia Ksiazka",new Author("Jak", "Kowalski"));
-		Book book2 = new Book("Druga Ksiazka",new Author("Kazimierz","Nowak"));
-		Book book1 = new Book("Pierwsza Ksiazka",new Author("Anna","Wanna"));
+		Book book1 = new Book("UltranexlinieClass",new Author("Wawrzyniec", "Was"));
+		Book book2 = new Book("Ambrozy &amp; Naum Space",new Author("Erwin","Serwin"));
+		Book book3 = new Book("Ultra godne Kurtki",new Author("Tegomir","Ciura"));
+		Book book4 = new Book("Mega bycze Artykuly budowlane",new Author("Sulislawa","Lukasika"));
+		Book book5 = new Book("Tyno Ekspert",new Author("Nikita","Pospiech"));
+		Book book6 = new Book("Fullnierzy3D",new Author("Tytus","Konopka"));
+		Book book7 = new Book("Modne Loki",new Author("Marcelin","Herman"));
+		Book book8 = new Book("Alma &amp; Alban Online",new Author("Ulryka","Sobocinski"));
+		Book book9 = new Book("Mega mroczne Patyki",new Author("Mojzesz","Koc"));
+		Book book10 = new Book("Super krotkie Tloki",new Author("Budzislawa","Salamon"));
+		Book book11 = new Book("Mafeso Class",new Author("Wiecemir","Boguslawski"));
+		Book book12 = new Book("Hyper",new Author("Chryzostom","Neumann"));
+		Book book13 = new Book("Full slodkie Mydla",new Author("Zyta","Januszkiewicz"));
+		Book book14 = new Book("Sadka",new Author("Drogomysl","Klocek"));
+		Book book15 = new Book("UltrarzyTour",new Author("Eulogiusz","Nadolny"));
+		Book book16 = new Book("Rygapafe Triple",new Author("Serwacy","Fortuna"));
+		Book book17 = new Book("Hiper kozackie Patyki",new Author("Wolfgang","Gacek"));
+		Book book18 = new Book("Ignacego Hepki",new Author("Anna","Wanna"));
+		Book book19= new Book("Ultra szerokie Opony",new Author("Jan","Kowalski"));
+		Book book20 = new Book("Pachnaca",new Author("Kazimierz","Nowak"));
 		library.add(book1);
 		library.add(book2);
 		library.add(book3);
+		library.add(book4);
+		library.add(book5);
+		library.add(book6);
+		library.add(book7);
+		library.add(book8);
+		library.add(book9);
+		library.add(book10);
+		library.add(book11);
+		library.add(book12);
+		library.add(book13);
+		library.add(book14);
+		library.add(book15);
+		library.add(book16);
+		library.add(book17);
+		library.add(book18);
+		library.add(book19);
+		library.add(book20);
 		this.setLibrary(library);
 	}
 
@@ -205,6 +240,19 @@ public class View extends ViewPart {
 		});
 		mntmNewItem.setSelection(true);
 		mntmNewItem.setText("Remove");
+		
+		MenuItem mntmSearch = new MenuItem(menu, SWT.NONE);
+		mntmSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				SearchBookDialog dialog = new SearchBookDialog(null);
+				dialog.create();
+				if(dialog.open() == Window.OK){
+					tableViewer.setInput(new Library(library.searchBook(dialog.getCriteria())));
+				}
+			}
+		});
+		mntmSearch.setText("Search");
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.setContentProvider(new ContentProvider());
 		initLibrary();

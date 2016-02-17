@@ -6,7 +6,24 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Library {
+	public static void main(String[] args) {
+		Library library = new Library();
+		library.add(new Book("raz"));
+		library.add(new Book("dwa"));
+		library.add(new Book("trzy"));
+		for(Book book:library.searchBook("a")){
+			System.out.println(book);
+		}
+	}
 	private List<Book> books = new ArrayList<Book>();
+	
+	public Library() {
+	}
+	
+	public Library(List<Book> books) {
+		super();
+		this.books = books;
+	}
 
 	public List<Book> getBooks() {
 		return books;
@@ -49,6 +66,16 @@ public class Library {
 			maxId = Math.max(maxId, book.getId());
 		}
 		return maxId + 1;
+	}
+	
+	public List<Book> searchBook(String titleCriteria){
+		List<Book> foundBooks = new ArrayList<Book>();
+		for(Book book:books){
+			if(book.getTitle().toLowerCase().contains(titleCriteria.toLowerCase())){
+				foundBooks.add(book);
+			}
+		}
+		return foundBooks;
 	}
 
 }
