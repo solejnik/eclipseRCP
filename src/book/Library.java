@@ -15,31 +15,40 @@ public class Library {
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
-	
-	public void add(Book book){
+
+	public void add(Book book) {
+		book.setId(nextId());
 		books.add(book);
 	}
-	
-	public void remove(Book book){
+
+	public void remove(Book book) {
 		books.remove(book);
 	}
-	
-	public void sortById(){
-		Collections.sort(books,new Comparator<Book>() {
+
+	public void sortById() {
+		Collections.sort(books, new Comparator<Book>() {
 			@Override
 			public int compare(Book o1, Book o2) {
 				return o1.getId().compareTo(o2.getId());
 			}
 		});
 	}
-	
-	public void sortByTitle(){
-		Collections.sort(books,new Comparator<Book>() {
+
+	public void sortByTitle() {
+		Collections.sort(books, new Comparator<Book>() {
 			@Override
 			public int compare(Book o1, Book o2) {
 				return o1.getTitle().compareToIgnoreCase(o2.getTitle());
 			}
 		});
+	}
+
+	public Long nextId() {
+		long maxId = 0;
+		for (Book book : books) {
+			maxId = Math.max(maxId, book.getId());
+		}
+		return maxId + 1;
 	}
 
 }

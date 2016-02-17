@@ -1,12 +1,9 @@
 package book;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Book {
 	private Long id;
 	private String title;
-	private List<Integer> authors = new ArrayList<Integer>();
+	private Author author;
 
 	public Book(String title) {
 		super();
@@ -19,11 +16,16 @@ public class Book {
 		this.title = title;
 	}
 
-	public Book(Long id, String title, List<Integer> authors) {
+	public Book(Long id, String title,Author author) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.authors = authors;
+		this.author = author;
+	}
+	
+	public Book(String title,Author author) {
+		this.title = title;
+		this.author = author;
 	}
 	
 	public String getTitle() {
@@ -42,12 +44,17 @@ public class Book {
 		this.id = id;
 	}
 
-	public List<Integer> getAuthors() {
-		return authors;
+	public Author getAuthor() {
+		return author;
 	}
 
-	public void setAuthors(List<Integer> authors) {
-		this.authors = authors;
+	public void setAuthors(Author author) {
+		this.author = author;
+	}
+
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + "]";
 	}
 
 }

@@ -31,7 +31,8 @@ import org.eclipse.ui.part.ViewPart;
 import book.Book;
 import book.InputDialog;
 import book.Library;
-import book.MyTitleAreaDialog;
+import book.AddBookDialog;
+import book.Author;
 
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -109,9 +110,9 @@ public class View extends ViewPart {
 
 	private void initLibrary() {
 		Library library = new Library();
-		Book book3 = new Book(3L,"Trzecia Ksiazka");
-		Book book2 = new Book(2L,"Druga Ksiazka");
-		Book book1 = new Book(1l,"Pierwsza Ksiazka");
+		Book book3 = new Book("Trzecia Ksiazka",new Author("Jak", "Kowalski"));
+		Book book2 = new Book("Druga Ksiazka",new Author("Kazimierz","Nowak"));
+		Book book1 = new Book("Pierwsza Ksiazka",new Author("Anna","Wanna"));
 		library.add(book1);
 		library.add(book2);
 		library.add(book3);
@@ -119,14 +120,12 @@ public class View extends ViewPart {
 	}
 
 	public void createPartControl(Composite parent) {
-		// parent.setLayout(new GridLayout(1, true));
-		// Add TableColumnLayout
 		TableColumnLayout layout = new TableColumnLayout();
 		parent.setLayout(layout);
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				
+
 			}
 		});
 		table = tableViewer.getTable();
@@ -169,10 +168,11 @@ public class View extends ViewPart {
 		mntmNewItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				IStructuredSelection selection = (IStructuredSelection)tableViewer.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				List list = selection.toList();
-				if(list.size()>0){
-					Book book = (Book)list.get(0);
+				Boolean ifDelete = MessageDialog.openConfirm(parent.getShell(), "WARNING!", "Do You really want to delete this book?");
+				if (list.size() > 0 && ifDelete) {
+					Book book = (Book) list.get(0);
 					library.remove(book);
 					tableViewer.setInput(library);
 				}
@@ -180,24 +180,23 @@ public class View extends ViewPart {
 		});
 		mntmNewItem.setSelection(true);
 		mntmNewItem.setText("Remove");
-		
+
 		MenuItem mntmAdd = new MenuItem(menu, SWT.NONE);
 		mntmAdd.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MyTitleAreaDialog dialog = new MyTitleAreaDialog(null);
+				AddBookDialog dialog = new AddBookDialog(null);
 				dialog.create();
 				if (dialog.open() == Window.OK) {
-				  library.add(new Book(Long.parseLong(dialog.getFirstName()), dialog.getLastName()));
-				  tableViewer.setInput(library);
-				} 
+					library.add(new Book(dialog.getLastName()));
+					tableViewer.setInput(library);
+				}
 			}
 		});
 		mntmAdd.setText("Add");
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.setContentProvider(new ContentProvider());
 		initLibrary();
-
 	}
 
 	public void setLibrary(Library library) {

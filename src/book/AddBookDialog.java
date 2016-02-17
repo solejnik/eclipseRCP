@@ -11,23 +11,25 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class MyTitleAreaDialog extends TitleAreaDialog {
+public class AddBookDialog extends TitleAreaDialog {
 
-  private Text txtFirstName;
-  private Text lastNameText;
+  private Text bookTitleText;
+  private Text authorFirstNameText;
+  private Text authorLastNameText;
 
-  private String firstName;
-  private String lastName;
+  private String bookTitle;
+  private String authorFirstName;
+  private String authorLastName;
 
-  public MyTitleAreaDialog(Shell parentShell) {
+  public AddBookDialog(Shell parentShell) {
     super(parentShell);
   }
 
   @Override
   public void create() {
     super.create();
-    setTitle("This is my first custom dialog");
-    setMessage("This is a TitleAreaDialog", IMessageProvider.INFORMATION);
+    setTitle("Create a book");
+    setMessage("There You can create a new book", IMessageProvider.INFORMATION);
   }
 
   @Override
@@ -38,33 +40,46 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
     GridLayout layout = new GridLayout(2, false);
     container.setLayout(layout);
 
-    createFirstName(container);
-    createLastName(container);
-
+    createBookTitle(container);
+    createAuthorFirstName(container);
+    createAuthorLastName(container);
     return area;
   }
 
-  private void createFirstName(Composite container) {
+  private void createBookTitle(Composite container) {
     Label lbtFirstName = new Label(container, SWT.NONE);
-    lbtFirstName.setText("First Name");
+    lbtFirstName.setText("Book title");
 
     GridData dataFirstName = new GridData();
     dataFirstName.grabExcessHorizontalSpace = true;
     dataFirstName.horizontalAlignment = GridData.FILL;
 
-    txtFirstName = new Text(container, SWT.BORDER);
-    txtFirstName.setLayoutData(dataFirstName);
+    bookTitleText = new Text(container, SWT.BORDER);
+    bookTitleText.setLayoutData(dataFirstName);
   }
   
-  private void createLastName(Composite container) {
+  private void createAuthorFirstName(Composite container) {
     Label lbtLastName = new Label(container, SWT.NONE);
-    lbtLastName.setText("Last Name");
+    lbtLastName.setText("Author first name");
     
     GridData dataLastName = new GridData();
     dataLastName.grabExcessHorizontalSpace = true;
     dataLastName.horizontalAlignment = GridData.FILL;
-    lastNameText = new Text(container, SWT.BORDER);
-    lastNameText.setLayoutData(dataLastName);
+    
+    authorFirstNameText = new Text(container, SWT.BORDER);
+    authorFirstNameText.setLayoutData(dataLastName);
+  }
+  
+  private void createAuthorLastName(Composite container) {
+	  Label lbtLastName = new Label(container, SWT.NONE);
+	  lbtLastName.setText("Author last name");
+	  
+	  GridData dataLastName = new GridData();
+	  dataLastName.grabExcessHorizontalSpace = true;
+	  dataLastName.horizontalAlignment = GridData.FILL;
+	  
+	  authorFirstNameText = new Text(container, SWT.BORDER);
+	  authorFirstNameText.setLayoutData(dataLastName);
   }
 
 
@@ -77,8 +92,9 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
   // save content of the Text fields because they get disposed
   // as soon as the Dialog closes
   private void saveInput() {
-    firstName = txtFirstName.getText();
-    lastName = lastNameText.getText();
+    bookTitle = bookTitleText.getText();
+    authorFirstName = authorFirstNameText.getText();
+    authorLastName = authorLastNameText.getText();
 
   }
 
@@ -88,12 +104,16 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
     super.okPressed();
   }
 
-  public String getFirstName() {
-    return firstName;
+  public String getTitleName() {
+    return bookTitle;
   }
 
+  public String getFirstName() {
+    return authorFirstName;
+  }
+  
   public String getLastName() {
-    return lastName;
+	  return authorLastName;
   }
   
   
