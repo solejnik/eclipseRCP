@@ -198,8 +198,9 @@ public class BooksView extends ViewPart {
 				AddBookDialog dialog = new AddBookDialog(null);
 				dialog.create();
 				if (dialog.open() == Window.OK) {
-					library.add(
+					permanentLobrary.add(
 							new Book(dialog.getLastName(), new Author(dialog.getFirstName(), dialog.getLastName())));
+					library.setBooks(permanentLobrary.getBooks());
 					tableViewer.setInput(library);
 				}
 			}
@@ -235,7 +236,8 @@ public class BooksView extends ViewPart {
 						"Do You really want to delete this book?")) {
 					Book book = (Book) firstElement;
 					permanentLobrary.remove(book);
-					tableViewer.setInput(permanentLobrary);
+					library.setBooks(permanentLobrary.getBooks());
+					tableViewer.setInput(library);
 				}
 			};
 		});
