@@ -23,11 +23,11 @@
          point="org.eclipse.ui.views">
       <view
             name="Books"
-            class="views.View"
+            class="views.BooksView"
             id="LibraryProject.view">
       </view>
       <view
-            class="views.View2"
+            class="views.AuthorView"
             id="LibraryProject.view2"
             name="Author"
             restorable="true">

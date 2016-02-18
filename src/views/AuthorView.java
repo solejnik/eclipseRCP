@@ -23,12 +23,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import book.Book;
 
-public class View2 extends ViewPart {
-	public View2() {
+public class AuthorView extends ViewPart {
+	public AuthorView() {
 	}
 	private boolean update;
 	private String authorFirstName;
 	private String authorLastName;
+	private String authorJson;
 	public static final String ID = "BookProject.view";
 	private Text text;
 	private ObjectMapper mapper = new ObjectMapper();
@@ -96,6 +97,7 @@ public class View2 extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				lblNewLabel_1.setText(authorFirstName);
 				lblNewLabel_3.setText(authorLastName);
+				text.setText(authorJson);
 			}
 		});
 		btnUpdate.setText("Update");
@@ -107,7 +109,7 @@ public class View2 extends ViewPart {
 		mntmHideAuthor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				lblAutor.setVisible(false);lblNewLabel.setVisible(false);lblNewLabel_1.setVisible(false);lblNewLabel_2.setVisible(false);lblNewLabel_3.setVisible(false);;
+				text.setText("");
 			}
 		});
 		mntmHideAuthor.setText("Hide author");
@@ -116,7 +118,7 @@ public class View2 extends ViewPart {
 		mntmShowAuthor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				lblAutor.setVisible(true);lblNewLabel.setVisible(true);lblNewLabel_1.setVisible(true);lblNewLabel_2.setVisible(true);lblNewLabel_3.setVisible(true);;
+				text.setText(authorJson);
 			}
 		});
 		mntmShowAuthor.setText("Show author");
@@ -136,15 +138,16 @@ public class View2 extends ViewPart {
 						Book element = (Book) o;
 						authorFirstName = element.getAuthor().getFirstName();
 						authorLastName = element.getAuthor().getLastName();
+						try {
+							authorJson = mapper.writeValueAsString(element.getAuthor());
+						} catch (JsonProcessingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						if(update){
 							lblNewLabel_1.setText(authorFirstName);
 							lblNewLabel_3.setText(authorLastName);
-							try {
-								text.setText(mapper.writeValueAsString(element));
-							} catch (JsonProcessingException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							text.setText(authorJson);
 						}
 					}
 				}

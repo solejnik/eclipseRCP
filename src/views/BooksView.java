@@ -36,8 +36,8 @@ import dialog.AddBookDialog;
 import dialog.EditBookDialog;
 import dialog.SearchBookDialog;
 
-public class View extends ViewPart {
-	public View() {
+public class BooksView extends ViewPart {
+	public BooksView() {
 	}
 
 	public static final String ID = "BookProject.view";
@@ -234,8 +234,8 @@ public class View extends ViewPart {
 				if (firstElement != null && MessageDialog.openConfirm(parent.getShell(), "WARNING!",
 						"Do You really want to delete this book?")) {
 					Book book = (Book) firstElement;
-					library.remove(book);
-					tableViewer.setInput(library);
+					permanentLobrary.remove(book);
+					tableViewer.setInput(permanentLobrary);
 				}
 			};
 		});
