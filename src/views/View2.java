@@ -3,27 +3,25 @@ package views;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
-
-import book.Book;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Text;
+import book.Book;
 
 public class View2 extends ViewPart {
 	public View2() {
@@ -142,7 +140,7 @@ public class View2 extends ViewPart {
 							lblNewLabel_1.setText(authorFirstName);
 							lblNewLabel_3.setText(authorLastName);
 							try {
-								text.setText(mapper.writeValueAsString(element.getAuthor()));
+								text.setText(mapper.writeValueAsString(element));
 							} catch (JsonProcessingException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

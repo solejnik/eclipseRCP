@@ -1,7 +1,5 @@
 package views;
 
-import java.util.List;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -104,26 +102,26 @@ public class View extends ViewPart {
 
 	private void initLibrary() {
 		Library library = new Library();
-		Book book1 = new Book("UltranexlinieClass",new Author("Wawrzyniec", "Was"));
-		Book book2 = new Book("Ambrozy &amp; Naum Space",new Author("Erwin","Serwin"));
-		Book book3 = new Book("Ultra godne Kurtki",new Author("Tegomir","Ciura"));
-		Book book4 = new Book("Mega bycze Artykuly budowlane",new Author("Sulislawa","Lukasika"));
-		Book book5 = new Book("Tyno Ekspert",new Author("Nikita","Pospiech"));
-		Book book6 = new Book("Fullnierzy3D",new Author("Tytus","Konopka"));
-		Book book7 = new Book("Modne Loki",new Author("Marcelin","Herman"));
-		Book book8 = new Book("Alma &amp; Alban Online",new Author("Ulryka","Sobocinski"));
-		Book book9 = new Book("Mega mroczne Patyki",new Author("Mojzesz","Koc"));
-		Book book10 = new Book("Super krotkie Tloki",new Author("Budzislawa","Salamon"));
-		Book book11 = new Book("Mafeso Class",new Author("Wiecemir","Boguslawski"));
-		Book book12 = new Book("Hyper",new Author("Chryzostom","Neumann"));
-		Book book13 = new Book("Full slodkie Mydla",new Author("Zyta","Januszkiewicz"));
-		Book book14 = new Book("Sadka",new Author("Drogomysl","Klocek"));
-		Book book15 = new Book("UltrarzyTour",new Author("Eulogiusz","Nadolny"));
-		Book book16 = new Book("Rygapafe Triple",new Author("Serwacy","Fortuna"));
-		Book book17 = new Book("Hiper kozackie Patyki",new Author("Wolfgang","Gacek"));
-		Book book18 = new Book("Ignacego Hepki",new Author("Anna","Wanna"));
-		Book book19= new Book("Ultra szerokie Opony",new Author("Jan","Kowalski"));
-		Book book20 = new Book("Pachnaca",new Author("Kazimierz","Nowak"));
+		Book book1 = new Book("UltranexlinieClass", new Author("Wawrzyniec", "Was"));
+		Book book2 = new Book("Ambrozy &amp; Naum Space", new Author("Erwin", "Serwin"));
+		Book book3 = new Book("Ultra godne Kurtki", new Author("Tegomir", "Ciura"));
+		Book book4 = new Book("Mega bycze Artykuly budowlane", new Author("Sulislawa", "Lukasika"));
+		Book book5 = new Book("Tyno Ekspert", new Author("Nikita", "Pospiech"));
+		Book book6 = new Book("Fullnierzy3D", new Author("Tytus", "Konopka"));
+		Book book7 = new Book("Modne Loki", new Author("Marcelin", "Herman"));
+		Book book8 = new Book("Alma &amp; Alban Online", new Author("Ulryka", "Sobocinski"));
+		Book book9 = new Book("Mega mroczne Patyki", new Author("Mojzesz", "Koc"));
+		Book book10 = new Book("Super krotkie Tloki", new Author("Budzislawa", "Salamon"));
+		Book book11 = new Book("Mafeso Class", new Author("Wiecemir", "Boguslawski"));
+		Book book12 = new Book("Hyper", new Author("Chryzostom", "Neumann"));
+		Book book13 = new Book("Full slodkie Mydla", new Author("Zyta", "Januszkiewicz"));
+		Book book14 = new Book("Sadka", new Author("Drogomysl", "Klocek"));
+		Book book15 = new Book("UltrarzyTour", new Author("Eulogiusz", "Nadolny"));
+		Book book16 = new Book("Rygapafe Triple", new Author("Serwacy", "Fortuna"));
+		Book book17 = new Book("Hiper kozackie Patyki", new Author("Wolfgang", "Gacek"));
+		Book book18 = new Book("Ignacego Hepki", new Author("Anna", "Wanna"));
+		Book book19 = new Book("Ultra szerokie Opony", new Author("Jan", "Kowalski"));
+		Book book20 = new Book("Pachnaca", new Author("Kazimierz", "Nowak"));
 		library.add(book1);
 		library.add(book2);
 		library.add(book3);
@@ -192,28 +190,29 @@ public class View extends ViewPart {
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
-		
-				MenuItem mntmAdd = new MenuItem(menu, SWT.NONE);
-				mntmAdd.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						AddBookDialog dialog = new AddBookDialog(null);
-						dialog.create();
-						if (dialog.open() == Window.OK) {
-							library.add(new Book(dialog.getLastName(),new Author(dialog.getFirstName(), dialog.getLastName())));
-							tableViewer.setInput(library);
-						}
-					}
-				});
-				mntmAdd.setText("Add");
-		
+
+		MenuItem mntmAdd = new MenuItem(menu, SWT.NONE);
+		mntmAdd.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				AddBookDialog dialog = new AddBookDialog(null);
+				dialog.create();
+				if (dialog.open() == Window.OK) {
+					library.add(
+							new Book(dialog.getLastName(), new Author(dialog.getFirstName(), dialog.getLastName())));
+					tableViewer.setInput(library);
+				}
+			}
+		});
+		mntmAdd.setText("Add");
+
 		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
 		mntmEdit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
-				List list = selection.toList();
-				Book book = (Book)list.get(0);
+				Object firstElement = selection.getFirstElement();
+				Book book = (Book) firstElement;
 				EditBookDialog dialog = new EditBookDialog(null, book);
 				dialog.create();
 				if (dialog.open() == Window.OK) {
@@ -231,10 +230,10 @@ public class View extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
-				List list = selection.toList();
-				Boolean ifDelete = MessageDialog.openConfirm(parent.getShell(), "WARNING!", "Do You really want to delete this book?");
-				if (list.size() > 0 && ifDelete) {
-					Book book = (Book) list.get(0);
+				Object firstElement = selection.getFirstElement();
+				if (firstElement != null && MessageDialog.openConfirm(parent.getShell(), "WARNING!",
+						"Do You really want to delete this book?")) {
+					Book book = (Book) firstElement;
 					library.remove(book);
 					tableViewer.setInput(library);
 				}
@@ -242,14 +241,14 @@ public class View extends ViewPart {
 		});
 		mntmNewItem.setSelection(true);
 		mntmNewItem.setText("Remove");
-		
+
 		MenuItem mntmSearch = new MenuItem(menu, SWT.NONE);
 		mntmSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SearchBookDialog dialog = new SearchBookDialog(null);
 				dialog.create();
-				if(dialog.open() == Window.OK){
+				if (dialog.open() == Window.OK) {
 					library.setBooks(permanentLobrary.searchBook(dialog.getCriteria()));
 					tableViewer.setInput(library);
 				}
